@@ -1,242 +1,214 @@
 {
   "totalStats": {
     "artists": {
-      "distinctCount": 45
+      "distinctCount": 222
     },
     "tracks": {
-      "distinctCount": 202,
-      "totalMinutes": 1433,
-      "totalPlays": 453,
-      "totalPlayDays": 23,
+      "distinctCount": 341,
+      "totalMinutes": 1351,
+      "totalPlays": 496,
+      "totalPlayDays": 67,
       "consecutiveDays": 0
     },
     "podcasts": {
       "distinctCount": 4,
-      "totalMinutes": 441
+      "totalMinutes": 1023
     },
     "podcastEpisodes": {
-      "distinctCount": 11
+      "distinctCount": 5
     },
     "alexa": {
-      "totalMinutes": 490
+      "totalMinutes": 35208
     }
   },
   "topTracks": [
     {
-      "id": "B0CQRWN5QT",
-      "count": 13,
-      "minutes": 32,
-      "countPercentile": 5,
-      "playDays": 6
+      "id": "B0BL441HZ9",
+      "count": 17,
+      "minutes": 16,
+      "countPercentile": 8,
+      "playDays": 9
     },
     {
-      "id": "B01LXAA72R",
-      "count": 13,
-      "minutes": 38,
-      "countPercentile": null,
-      "playDays": 6
-    },
-    {
-      "id": "B077TD3696",
-      "count": 13,
-      "minutes": 39,
-      "countPercentile": null,
-      "playDays": 6
-    },
-    {
-      "id": "B08W8ZFD22",
-      "count": 13,
-      "minutes": 37,
-      "countPercentile": null,
-      "playDays": 6
-    },
-    {
-      "id": "B09DK3PYJD",
-      "count": 13,
-      "minutes": 27,
-      "countPercentile": null,
-      "playDays": 6
-    },
-    {
-      "id": "B0C6WQRDGQ",
+      "id": "B07T35R464",
       "count": 12,
-      "minutes": 49,
-      "countPercentile": null,
+      "minutes": 22,
+      "countPercentile": 17,
+      "playDays": 7
+    },
+    {
+      "id": "B0CXRJTJK1",
+      "count": 11,
+      "minutes": 21,
+      "countPercentile": 6,
       "playDays": 6
     },
     {
       "id": "B07SYZKYSW",
-      "count": 9,
-      "minutes": 33,
-      "countPercentile": null,
-      "playDays": 6
+      "count": 6,
+      "minutes": 11,
+      "countPercentile": 28,
+      "playDays": 3
     },
     {
-      "id": "B0011Z4Z3G",
-      "count": 8,
-      "minutes": 39,
-      "countPercentile": null,
+      "id": "B003OBB3IK",
+      "count": 5,
+      "minutes": 10,
+      "countPercentile": 11,
+      "playDays": 2
+    },
+    {
+      "id": "B077H83S3T",
+      "count": 5,
+      "minutes": 10,
+      "countPercentile": 36,
+      "playDays": 3
+    },
+    {
+      "id": "B0CG1R9B29",
+      "count": 5,
+      "minutes": 16,
+      "countPercentile": 31,
       "playDays": 5
     },
     {
-      "id": "B073RZHL1X",
-      "count": 8,
-      "minutes": 29,
-      "countPercentile": null,
-      "playDays": 6
+      "id": "B0CGW3KZ52",
+      "count": 5,
+      "minutes": 12,
+      "countPercentile": 21,
+      "playDays": 5
     },
     {
-      "id": "B09WTMMYTS",
-      "count": 8,
-      "minutes": 25,
-      "countPercentile": null,
-      "playDays": 5
+      "id": "B0CZW15FZZ",
+      "count": 5,
+      "minutes": 13,
+      "countPercentile": 23,
+      "playDays": 2
+    },
+    {
+      "id": "B00JLJ185C",
+      "count": 4,
+      "minutes": 12,
+      "countPercentile": 28,
+      "playDays": 3
     }
   ],
   "topAlbums": [
     {
       "id": "B07SYHQPPD",
-      "minutes": 56
+      "minutes": 36
     },
     {
-      "id": "B08W8KS777",
-      "minutes": 56
+      "id": "B001CDNLJ6",
+      "minutes": 25
     },
     {
-      "id": "B0C6X31KXG",
-      "minutes": 49
+      "id": "B0CXR8ZK8B",
+      "minutes": 21
     },
     {
-      "id": "B0011Z8S8E",
-      "minutes": 39
+      "id": "B0D24TK6PV",
+      "minutes": 20
     },
     {
-      "id": "B078C7GQYY",
-      "minutes": 39
+      "id": "B09J9ZRZC5",
+      "minutes": 18
     },
     {
-      "id": "B01LXAA8YF",
-      "minutes": 38
+      "id": "B0CJWV1HXG",
+      "minutes": 17
     }
   ],
   "topArtists": [
     {
-      "id": "B001EUK7NA",
-      "count": 68,
-      "minutes": 217,
-      "minutesPercentile": 4,
+      "id": "B000T2D81C",
+      "count": 51,
+      "minutes": 112,
+      "minutesPercentile": 5,
       "tracks": [
         {
-          "id": "B08W8ZFD22",
-          "count": 13
-        },
-        {
-          "id": "B0C6WQRDGQ",
+          "id": "B07T35R464",
           "count": 12
         },
         {
           "id": "B07SYZKYSW",
-          "count": 9
+          "count": 6
         },
         {
-          "id": "B08W92DXXM",
+          "id": "B077H83S3T",
           "count": 5
-        },
-        {
-          "id": "B0C66MXGB5",
-          "count": 4
         }
       ]
     },
     {
-      "id": "B00GB0QTOY",
-      "count": 26,
-      "minutes": 62,
-      "minutesPercentile": null,
+      "id": "B0014DEFTE",
+      "count": 13,
+      "minutes": 44,
+      "minutesPercentile": 77,
       "tracks": [
         {
-          "id": "B07FSXMG6X",
+          "id": "B09JB4BC7F",
           "count": 4
         },
         {
-          "id": "B07FT1J58D",
+          "id": "B07DKTQW3Y",
           "count": 3
         },
         {
-          "id": "B07FSQB3R2",
-          "count": 2
-        },
-        {
-          "id": "B07FT8VBZB",
-          "count": 2
-        },
-        {
-          "id": "B09DG74JSN",
+          "id": "B08QDP6NZ3",
           "count": 2
         }
       ]
     },
     {
-      "id": "B000YBCXDC",
-      "count": 17,
-      "minutes": 46,
-      "minutesPercentile": 100,
-      "tracks": [
-        {
-          "id": "B07VCZTVM2",
-          "count": 3
-        },
-        {
-          "id": "B07VBV1R1K",
-          "count": 2
-        },
-        {
-          "id": "B07VH6XRVZ",
-          "count": 2
-        },
-        {
-          "id": "B07VJ7XMV8",
-          "count": 2
-        },
-        {
-          "id": "B003Y3SQFQ",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "id": "B0015H24HO",
-      "count": 15,
-      "minutes": 45,
-      "minutesPercentile": 50,
-      "tracks": [
-        {
-          "id": "B077TD3696",
-          "count": 13
-        },
-        {
-          "id": "B00JLJ185C",
-          "count": 1
-        },
-        {
-          "id": "B01NASB7AU",
-          "count": 1
-        }
-      ]
-    },
-    {
-      "id": "B002F0BWIM",
-      "count": 16,
-      "minutes": 42,
+      "id": "B0011Z79O8",
+      "count": 9,
+      "minutes": 28,
       "minutesPercentile": null,
       "tracks": [
         {
-          "id": "B004LQW0NO",
-          "count": 13
+          "id": "B001CDI8FS",
+          "count": 1
         },
         {
-          "id": "B08XYB3L8X",
-          "count": 3
+          "id": "B001CDKFYK",
+          "count": 1
+        },
+        {
+          "id": "B001CDKFZO",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "B0B1TMJ8CG",
+      "count": 5,
+      "minutes": 28,
+      "minutesPercentile": null,
+      "tracks": [
+        {
+          "id": "B0CJWY67YL",
+          "count": 4
+        },
+        {
+          "id": "B0BYGK4PN6",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "B00322EK68",
+      "count": 12,
+      "minutes": 24,
+      "minutesPercentile": null,
+      "tracks": [
+        {
+          "id": "B0CXRJTJK1",
+          "count": 11
+        },
+        {
+          "id": "B08CS7N3MP",
+          "count": 1
         }
       ]
     }
@@ -244,136 +216,136 @@
   "topGenres": [
     {
       "id": "aFyug8oD",
-      "count": 157,
-      "minutes": 1126,
+      "count": 160,
+      "minutes": 698,
       "tracks": [
         {
-          "id": "B004LQW0NO",
-          "count": 13
+          "id": "B07T35R464",
+          "count": 12
         },
         {
-          "id": "B01LXAA72R",
-          "count": 13
+          "id": "B0CXRJTJK1",
+          "count": 11
         },
         {
-          "id": "B077TD3696",
-          "count": 13
+          "id": "B07SYZKYSW",
+          "count": 6
         },
         {
-          "id": "B08W8ZFD22",
-          "count": 13
-        },
-        {
-          "id": "B09DK3PYJD",
-          "count": 13
-        }
-      ]
-    },
-    {
-      "id": "2THZZDuI",
-      "count": 42,
-      "minutes": 211,
-      "tracks": [
-        {
-          "id": "B004LQW0NO",
-          "count": 13
-        },
-        {
-          "id": "B0043ZBIOU",
-          "count": 3
-        },
-        {
-          "id": "B00GNK1G5O",
-          "count": 3
-        },
-        {
-          "id": "B015GL98TQ",
-          "count": 3
+          "id": "B003OBB3IK",
+          "count": 5
         },
         {
           "id": "B077H83S3T",
-          "count": 3
+          "count": 5
         }
       ]
     },
     {
       "id": "fPLnpcp-",
-      "count": 41,
-      "minutes": 299,
+      "count": 99,
+      "minutes": 499,
       "tracks": [
         {
-          "id": "B077TD3696",
-          "count": 13
+          "id": "B07T35R464",
+          "count": 12
+        },
+        {
+          "id": "B0CXRJTJK1",
+          "count": 11
         },
         {
           "id": "B07SYZKYSW",
-          "count": 9
+          "count": 6
         },
         {
-          "id": "B08WDN4HMG",
+          "id": "B003OBB3IK",
           "count": 5
         },
         {
-          "id": "B0B69HCQJN",
+          "id": "B077H83S3T",
           "count": 5
-        },
-        {
-          "id": "B00137ODBG",
-          "count": 3
         }
       ]
     },
     {
-      "id": "NuO7Hlm6",
-      "count": 38,
-      "minutes": 379,
+      "id": "Gh6zA-kO",
+      "count": 63,
+      "minutes": 236,
       "tracks": [
         {
-          "id": "B0011Z4Z3G",
-          "count": 16
+          "id": "B01DKYR0P0",
+          "count": 4
         },
         {
-          "id": "B0C66MXGB5",
-          "count": 8
+          "id": "B089XZ7PBQ",
+          "count": 3
         },
         {
-          "id": "B07VRTXQ3F",
-          "count": 6
+          "id": "B0011ADSZ2",
+          "count": 2
         },
         {
-          "id": "B08Q8GWGN6",
-          "count": 6
+          "id": "B009B53I54",
+          "count": 2
         },
         {
-          "id": "B0C9H1BPWB",
-          "count": 6
+          "id": "B01LYSVK29",
+          "count": 2
         }
       ]
     },
     {
       "id": "3lAa5np2",
-      "count": 34,
-      "minutes": 332,
+      "count": 54,
+      "minutes": 265,
       "tracks": [
         {
-          "id": "B08W8ZFD22",
-          "count": 13
-        },
-        {
-          "id": "B09DK3PYJD",
-          "count": 13
+          "id": "B07T35R464",
+          "count": 12
         },
         {
           "id": "B07SYZKYSW",
-          "count": 9
+          "count": 6
         },
         {
-          "id": "B0011Z4Z3G",
-          "count": 8
+          "id": "B0CG1R9B29",
+          "count": 5
         },
         {
-          "id": "B09WTMMYTS",
-          "count": 8
+          "id": "B00JLJ185C",
+          "count": 4
+        },
+        {
+          "id": "B07DKTQW3Y",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "25x1UgQS",
+      "count": 50,
+      "minutes": 220,
+      "tracks": [
+        {
+          "id": "B0CG1R9B29",
+          "count": 5
+        },
+        {
+          "id": "B01DKYR0P0",
+          "count": 4
+        },
+        {
+          "id": "B000WQJF3U",
+          "count": 3
+        },
+        {
+          "id": "B089XZ7PBQ",
+          "count": 3
+        },
+        {
+          "id": "B0C7DQCSMF",
+          "count": 3
         }
       ]
     }
@@ -381,47 +353,27 @@
   "topDecades": [
     {
       "id": "2020s",
-      "count": 208,
-      "minutes": 639,
+      "count": 238,
+      "minutes": 575,
       "tracks": [
         {
-          "id": "B08W8ZFD22",
-          "count": 13
+          "id": "B0BL441HZ9",
+          "count": 17
         },
         {
-          "id": "B09DK3PYJD",
-          "count": 13
+          "id": "B0CXRJTJK1",
+          "count": 11
         },
         {
-          "id": "B0C6WQRDGQ",
-          "count": 12
+          "id": "B0CG1R9B29",
+          "count": 5
         },
         {
-          "id": "B09WTMMYTS",
-          "count": 8
+          "id": "B0CGW3KZ52",
+          "count": 5
         },
         {
-          "id": "B0B52N7XY7",
-          "count": 8
-        },
-        {
-          "id": "B0CJ3S5PDW",
-          "count": 8
-        },
-        {
-          "id": "B09CQF54JK",
-          "count": 7
-        },
-        {
-          "id": "B0BG6MKX23",
-          "count": 7
-        },
-        {
-          "id": "B0C9FW284Q",
-          "count": 7
-        },
-        {
-          "id": "B08W92DXXM",
+          "id": "B0CZW15FZZ",
           "count": 5
         }
       ]
@@ -443,114 +395,120 @@
   ],
   "topNewArtistDiscovery": [
     {
-      "id": "B000QJRK6W",
-      "minutes": 491.0,
-      "timestamp": "1717200000",
+      "id": "B00N68KUTO",
+      "minutes": 448.0,
+      "timestamp": "1714521600",
       "tracks": [
         {
-          "id": "B003A95JT0",
-          "count": 9
+          "id": "B0D1HPDDWV",
+          "count": 127
         },
         {
-          "id": "B003A95K4Y",
-          "count": 9
+          "id": "B0CZGMRQP4",
+          "count": 22
         },
         {
-          "id": "B003A9A5TO",
-          "count": 9
-        },
-        {
-          "id": "B09TPY3V51",
-          "count": 9
-        },
-        {
-          "id": "B003A97AQA",
-          "count": 8
+          "id": "B0D1HBD8GR",
+          "count": 2
         }
       ]
     }
   ],
   "topEarlyAlbumDiscovery": [
     {
-      "id": "B0DF9L2QMT",
-      "minutes": 43,
-      "count": 14,
-      "rank": 15788,
-      "tracks": []
+      "id": "B0D1HGC169",
+      "minutes": 2,
+      "count": 1,
+      "rank": 1189049.0,
+      "tracks": [
+        {
+          "id": "B0D1HBD8GR",
+          "count": 1
+        }
+      ]
     }
   ],
   "firstHalf": {
-    "count": 105,
-    "peakMonth": 4,
-    "peakMonthPlays": 70,
-    "topTrack": "B0CNQ8LRP8"
+    "count": 339,
+    "peakMonth": 1,
+    "peakMonthPlays": 102,
+    "topTrack": "B0CXRJTJK1"
   },
   "secondHalf": {
-    "count": 13,
-    "peakMonth": 8,
-    "peakMonthPlays": 13,
-    "topTrack": "B01LXAA72R"
+    "count": 157,
+    "peakMonth": 6,
+    "peakMonthPlays": 112,
+    "topTrack": "B07T35R464"
   },
   "topPodcasts": [
     {
-      "id": "336a989f-5606-4542-950a-d6cec4479d1d",
-      "count": 3,
-      "minutes": 165,
-      "minutesPercentile": 10
-    },
-    {
-      "id": "e2944e70-fe00-4d81-96bd-2fdb95bf4090",
-      "count": 3,
-      "minutes": 164,
-      "minutesPercentile": null
-    },
-    {
-      "id": "6d261659-cc8d-478c-b052-19dfeb25dcf5",
-      "count": 5,
-      "minutes": 110,
-      "minutesPercentile": null
-    },
-    {
-      "id": "267a4376-5399-47b0-9333-4d5b558ece18",
+      "id": "04f0e385-0700-496c-9474-90f797b59497",
       "count": 1,
-      "minutes": 2,
+      "minutes": 240,
+      "minutesPercentile": 2
+    },
+    {
+      "id": "cb02e232-c258-4c5d-8d2a-e6167536c288",
+      "count": 4,
+      "minutes": 240,
+      "minutesPercentile": 8
+    },
+    {
+      "id": "2accc2f7-4a20-4943-b138-ede19f22ffa2",
+      "count": 1,
+      "minutes": 240,
+      "minutesPercentile": 7
+    },
+    {
+      "id": "7618ee74-7814-4c92-a7f3-6f5b047d4c24",
+      "count": 1,
+      "minutes": 240,
       "minutesPercentile": null
     }
   ],
   "topPodcastCategories": [
     {
-      "id": "dmp.category.01f6de50-32ee-45f7-a61f-0a2830f93d2e",
-      "count": 11,
-      "minutes": 439
+      "id": "dmp.category.29ceecfc-cc08-49be-adb6-bf2f8b5ddff0",
+      "count": 5,
+      "minutes": 240
     },
     {
-      "id": "dmp.category.2c48db67-78c0-4981-adf3-b33cac18d3a3",
+      "id": "dmp.category.9c4a8960-daf0-4b2c-a98d-d9df2aa57546",
+      "count": 5,
+      "minutes": 240
+    },
+    {
+      "id": "dmp.category.c51cf213-bf73-4fd4-8535-36b3a223581d",
       "count": 1,
-      "minutes": 2
+      "minutes": 1
     }
   ],
   "topPlaylists": [
     {
-      "id": "B0CVJWPTLP",
-      "minutes": 863,
+      "id": "PP9FC3F07E12A54EC2990706FF147DE105",
+      "minutes": 174,
       "playDays": 6
     },
     {
-      "id": "B0CZBV3GSN",
-      "minutes": 33,
+      "id": "B0CSSVBQG7",
+      "minutes": 88,
+      "playDays": 3
+    },
+    {
+      "id": "B0D6PV14M8",
+      "minutes": 30,
       "playDays": 2
     },
     {
-      "id": "B0DLNJ7SSZ",
-      "minutes": 10,
-      "playDays": 2
+      "id": "b032c77ebd0542f9990e37f8cff1bc82sune",
+      "minutes": 21,
+      "playDays": 3
     },
     {
-      "id": "PP191BF0ED5D0240379789F5E2643F9A1C",
-      "minutes": 6,
-      "playDays": 6
+      "id": "758d3a51c8974eea82460a9c849d852a",
+      "minutes": 15,
+      "playDays": 4
     }
   ],
-  "customerId": "A2H6CQQG25DS5V",
   "eligibility": true
 }

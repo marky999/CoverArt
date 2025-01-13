@@ -29,7 +29,15 @@
         "B000QKO05A": "Led Zeppelin",
         "B000YBCXDC": "Katy Perry",
         "B000QJRK6W": "David Zaizar",
-        "B07YN81H9J": "Seph Schlueter"
+        "B07YN81H9J": "Seph Schlueter",
+        "B01HFUTKDK": "Bad Bunny",
+        "B00QNUADXK": "Morgan Wallen",
+        "B0041P77O2": "Sabrina Carpenter",
+        "B000T2D81C": "Beyoncé",
+        "B0014DEFTE": "Adele",
+        "B0011Z79O8": "Foreigner",
+        "B0B1TMJ8CG": "Dairon Herrera",
+        "B00322EK68": "Meghan Trainor"
     },
     "topGenreMap": {
         "dpRWm1xb": "Dance & Electronic",
@@ -42,7 +50,10 @@
         "timGTvCN": "Contemporary Country",
         "NuO7Hlm6": "Alternative Pop",
         "2THZZDuI": "Teen Pop",
-        "3lAa5np2": "Singer Songwriter"
+        "3lAa5np2": "Singer Songwriter",
+        "C4JQITZB": "Modern Pop",
+        "Gh6zA-kO": "Rock",
+        "25x1UgQS": "Pop Rock"
     },
     "songsMap": {
         "B004LQW0NO": "Somebody To Love Remix [feat. USHER]",
@@ -72,7 +83,10 @@
         "B07ZFW4HV3": "L'hymne de nos campagnes 2019 [Explicit]",
         "B0BS2S4WXN": "B0DHQCPK7X",
         "B0CNQ8LRP8": "Por Dentro [Explicit]",
-        "B0CQRWN5QT": "Apaga El Cel [Explicit]"
+        "B0CQRWN5QT": "Apaga El Cel [Explicit]",
+        "B0CXRJTJK1": "Been Like This [Explicit]",
+        "B0BL441HZ9": "Candy Blue",
+        "B07T35R464": "Cruel Summer"
     },
     "topPodcastsMap": {
         "3674bfd8-6714-4522-8f59-986acc0b217e": "Doc Caro - Die Sprechstunde",
@@ -88,12 +102,20 @@
         "336a989f-5606-4542-950a-d6cec4479d1d": "True Crime with Kendall Rae",
         "e2944e70-fe00-4d81-96bd-2fdb95bf4090": "Small Town Dicks",
         "6d261659-cc8d-478c-b052-19dfeb25dcf5": "MrBallen Podcast: Strange, Dark & Mysterious Stories",
-        "267a4376-5399-47b0-9333-4d5b558ece18": "Spittin Chiclets"
+        "267a4376-5399-47b0-9333-4d5b558ece18": "Spittin Chiclets",
+        "30381209-4d12-4c82-ba16-5bde361156c9": "Morbid",
+        "04f0e385-0700-496c-9474-90f797b59497": "20/20",
+        "cb02e232-c258-4c5d-8d2a-e6167536c288": "Dateline NBC",
+        "2accc2f7-4a20-4943-b138-ede19f22ffa2": "Stuff You Should Know",
+        "7618ee74-7814-4c92-a7f3-6f5b047d4c24": "48 Hours"
 
 
     },
     "topEarlyAlbumDiscoveryMap": {
         "B0DF9L2QMT":"NCUENTROS [Explicit]"
+    },
+    "topNewArtistDiscoveryMap": {
+        "B000QJRK6W": "David Zaizar"
     }
 
 }
