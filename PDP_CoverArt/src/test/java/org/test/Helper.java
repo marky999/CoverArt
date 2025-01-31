@@ -114,7 +114,6 @@ public class Helper {
     }
 
 
-
     public boolean isElementFound(String xpath, int waitDuration ) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(waitDuration));
         try {
@@ -159,10 +158,15 @@ public class Helper {
         return driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"" + str + "\"]"));
     }
 
-
+    public WebElement getStaticTextElementWithLabel(String str) {
+       return  driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@label, '" + str + "')]"));
+    }
+    public WebElement getTextFieldElement(String str){
+        return driver.findElement(By.xpath("//XCUIElementTypeTextField[@name=\"" + str + "\"]"));
+    }
 
     public WebElement getStaticTextElement(String str){
-        return driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name=\"" + str + "\"]"));
+        return driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@name,\"" + str + "\")]"));
     }
 
     public WebElement getTypeOtherElement(String str){

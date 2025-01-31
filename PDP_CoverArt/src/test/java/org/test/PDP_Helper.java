@@ -31,7 +31,7 @@ public class PDP_Helper {
             "123456789012345678901234567890123456789012345678901234567890" +
             "123456789012345678901234567890123456789012345678901234567890";
 
-    final String emoji = "\uD83D\uDC4C\uD83D\uDE4F\uD83D\uDEB5\u200D♂\uFE0F\uD83C\uDF97" + "@#$%^";
+    final String emoji = "\uD83D\uDC4C\uD83D\uDE4F\uD83D\uDEB5\u200D♂\uFE0F\uD83C\uDF97" + "@#$%^:;()&\".,?!";
     //============================================================//
  //   public WebElement showMore;
     public PDP_Helper(AppiumDriver driver, WebDriverWait wait, Helper helper){
@@ -41,23 +41,26 @@ public class PDP_Helper {
     }
 
     public void clickUpload() throws InterruptedException {
-
         try{
             helper.getTypeOtherElement("PickImage_SelectedImage").click();
             //driver.findElement(By.xpath("//XCUIElementTypeOther[@name=\"PickImage_SelectedImage\"]")).click();
         }catch(Exception e)
         {
+            sleep(1000);
             driver.findElement(By.xpath(uploadButton)).click();
         }
-
-
-
-
         sleep(1000);
     }
 
-    public void clickRandomImageFromLibrary() throws InterruptedException {
+    public void addPlaylist(String playlistName){
+        helper.getStaticTextElement("New Playlist").click();
+        helper.getStaticTextElement("Curate a playlist").click();
+        helper.getTextFieldElement("AMPlaylistListViewControllerTextFieldIdentifier").sendKeys(playlistName);
+        //driver.findElement(By.xpath("//XCUIElementTypeTextField[@name=\"AMPlaylistListViewControllerTextFieldIdentifier\"]")).sendKeys(playlistName);
+        helper.getStaticTextElement("Save").click();
+    }
 
+    public void clickRandomImageFromLibrary() throws InterruptedException {
         List<WebElement> elems =  driver.findElements(By.xpath("//XCUIElementTypeOther[@name=\"PXGGridLayout-Group\"]/*"));
         System.out.println(elems.size());
         Random random = new Random();
@@ -93,6 +96,9 @@ public class PDP_Helper {
     }
 
     public void clickLibraryFromActionSheet() throws InterruptedException {
+        if(helper.isElementExist(By.xpath("//XCUIElementTypeButton[@name=\"Allow Full Access\"]"))){
+            driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"Allow Full Access\"]")).click();
+        }
         driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@label, 'Launch Library')]")).click();
         sleep(1000);
         test.info("Library menu clicked from Action sheet");
@@ -135,7 +141,7 @@ public class PDP_Helper {
     public void clickDone() throws InterruptedException {
         clickButton("BauhausTextButton,TopAppBar_Done");
         sleep(3000);//DO NOT REDUCE
-        test.info("click Done");
+        test.info("click Save");
         sleep(1000);
     }
 
@@ -147,8 +153,14 @@ public class PDP_Helper {
 
     public void clearDescriptionTextField(String description) throws InterruptedException {
         String currentDescription = getLabelFromDescriptionField();
-        WebElement textFieldsElement = driver.findElements(By.xpath("//XCUIElementTypeStaticText[@name=\"TextArea_text\"]")).get(1);
+        WebElement textFieldsElement;
+        try {
+            textFieldsElement = driver.findElements(By.xpath("//XCUIElementTypeStaticText[@name=\"TextArea_text\"]")).get(1);
+        }catch(Exception e){
+            textFieldsElement = driver.findElement(By.id("AMMPageHeaderSecondaryTextAccessibilityIdentifier"));
+        }
         textFieldsElement.click();
+
 
 
         if(currentDescription.contains("Add a description")){
@@ -170,8 +182,14 @@ public class PDP_Helper {
            // String label = textFieldsElements.get(1).getDomAttribute("label");
             return textFieldsElements.get(1).getDomAttribute("label");
         }catch(Exception e){
-            WebElement label = driver.findElement(By.xpath("//XCUIElementTypeTextView[@name=\"TextArea\"]"));
-            return label.getText();
+            try{
+                WebElement label = driver.findElement(By.xpath("//XCUIElementTypeTextView[@name=\"TextArea\"]"));
+                return label.getText();
+            }catch(Exception e1){
+                WebElement label = driver.findElement(By.id("AMMPageHeaderSecondaryTextAccessibilityIdentifier"));
+                return label.getText();
+            }
+
         }
     }
 
@@ -218,13 +236,20 @@ public class PDP_Helper {
         clickPlayListButton();
         clickTestPlayList();
         test.info("Open PDP");
-        sleep(1500);
+        sleep(2000);
     }
 
     public void clickTestPlayList() throws InterruptedException {
         List<WebElement> elements = getAllPlayLists();
-        System.out.println(clickTestPlayListFromPlayListsPage(elements) ? "Open PDP" : "Test Playlist Not Found");
+        test.info(clickTestPlayListFromPlayListsPage(elements) ? "Open PDP" : "Test Playlist Not Found");
         sleep(2000);
+    }
+
+    public void deletePlaylist(String playlistName) throws InterruptedException {
+        List<WebElement> elements = getAllPlayLists();
+        driver.findElement(By.xpath("(//XCUIElementTypeButton[@name=\"AMToolbarButtonItemType_moreOptions\"])[1]")).click();
+        helper.getStaticTextElementWithLabel("Delete Playlist").click();
+        helper.getStaticTextElement("Delete").click();
     }
 
     public void clickBack() throws InterruptedException {
@@ -245,12 +270,17 @@ public class PDP_Helper {
     }
 
     public void clickPlayListButton(){
-        driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"PillNavigatorTextButton\" and @label=\"Playlists\"]")).click();
-        test.info("click PlayList button ");
+        if(!driver.findElements(By.xpath("//XCUIElementTypeButton[@name=\"PillNavigatorTextButton\" and @label=\"Playlists\"]")).isEmpty()){
+            driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"PillNavigatorTextButton\" and @label=\"Playlists\"]")).click();
+            test.info("click PlayList button ");
+        }
     }
 
     public void clickEditButton() throws InterruptedException {
+        sleep(1000);//DO NOT REDUCE
         driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"IconButton,Toolbar_EditButton\"]")).click();//Edit button
+     //   driver.findElement(By.id("AMMEditToolbarItemAccessibilityIdentifier")).click();//Edit button
+
         sleep(2000);//DO NOT REDUCE
         test.info("Click Edit button");
     }
@@ -272,5 +302,21 @@ public class PDP_Helper {
             }
         }
         return isFound;
+    }
+
+    public WebElement getTestPlayListFromPlayListsPage(List<WebElement> elements, String playlistName ) {
+        boolean isFound = false;
+        WebElement nestedElement = null;
+        for (WebElement targetCell : elements) {
+            nestedElement = targetCell.findElement(By.xpath("./XCUIElementTypeOther/XCUIElementTypeOther"));
+            String playlistTitle = nestedElement.getText();
+            if (playlistTitle.contains(playlistName)) {
+                isFound = true;
+                test.info("testPlayList found");
+                break;
+            }
+        }
+
+        return isFound ? nestedElement : null;
     }
 }

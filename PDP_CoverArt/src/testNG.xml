@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+    <listeners>
+        <listener class-name="org.test.ExtentTestNGReportListener" />
+    </listeners>
+
+    <test name="PDPCoverArtTest">
+        <classes>
+            <class name="org.test.PDPCoverArtTest" />
+        </classes>
+    </test>
+</suite>
