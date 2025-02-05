@@ -30,9 +30,12 @@ public class YIRShareOpecCloseTest {
 
         driver = new IOSDriver(new URL("http://127.0.0.1:4723"), options);
         Thread.sleep(1000);
+        //----------------  DeepLink ---------------------//
+        driver.get("https://music.amazon.com/recap/delivered/2024");
+        //------------------------------------------------//
         //----------------  Library Ingress ---------------------//
-        driver.findElement(By.xpath("//XCUIElementTypeOther[@name=\"AMMyMusicNavigationTabIconAccessibilityIdentifier\"]")).click();
-        driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name=\"ExpandedInfoView_PrimaryLabel\" and @label=\"2024 Delivered\"]")).click();
+      //  driver.findElement(By.xpath("//XCUIElementTypeOther[@name=\"AMMyMusicNavigationTabIconAccessibilityIdentifier\"]")).click();
+      //  driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name=\"ExpandedInfoView_PrimaryLabel\" and @label=\"2024 Delivered\"]")).click();
         //-------------------------------------------------------//
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         helper = new Helper(driver, wait);

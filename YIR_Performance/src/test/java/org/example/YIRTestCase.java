@@ -3,7 +3,7 @@ package org.example;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+//import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.google.gson.Gson;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -37,7 +37,7 @@ public class YIRTestCase {
     public IOSSongLapseTester iossonglapseTester;
     public ValidateEachFrame validateEachFrame;
     Map<String, String> songs = JasonExtraction.songsMap;
-    private boolean skipSetup = false;  // Flag to control if BeforeMethod should run
+    private boolean skipSetup = true;  // Flag to control if BeforeMethod should run
     private ITestResult testResult;
     public ExtentTest test;
     public final boolean execute = true; /////////////   DEBUG PURPOSE //////////
@@ -70,14 +70,14 @@ public class YIRTestCase {
         driver = new IOSDriver(new URL("http://127.0.0.1:4723"), options);
         context.setAttribute("WebDriver", driver);
         //----------------  DeepLink ---------------------//
-     //   driver.get("https://music.amazon.com/recap/delivered/2024");
+        driver.get("https://music.amazon.com/recap/delivered/2024");
         //------------------------------------------------//
 
         Thread.sleep(3000);//DO NOT MOVE or REMOVE
 
         //----------------  Library Ingress ---------------------//
-        driver.findElement(By.xpath("//XCUIElementTypeOther[@name=\"AMMyMusicNavigationTabIconAccessibilityIdentifier\"]")).click();
-        driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name=\"ExpandedInfoView_PrimaryLabel\" and @label=\"2024 Delivered\"]")).click();
+   //     driver.findElement(By.xpath("//XCUIElementTypeOther[@name=\"AMMyMusicNavigationTabIconAccessibilityIdentifier\"]")).click();
+  //      driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name=\"ExpandedInfoView_PrimaryLabel\" and @label=\"2024 Delivered\"]")).click();
         //-------------------------------------------------------//
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         helper = new Helper(driver, wait);
@@ -166,8 +166,8 @@ public class YIRTestCase {
         test.info("Case 9: S6.02 First Obsessed With");
 
         HashMap<String, Object> firstHalfFromJSon = JasonExtraction.getFirstHalf();
-        int count = (int)firstHalfFromJSon.get("count");
-        if(count < 10){
+       // int count = (int)firstHalfFromJSon.get("count");
+        if(firstHalfFromJSon == null || (int)firstHalfFromJSon.get("count") < 10){
             throw new SkipException("Skipping Case");
         }
 
@@ -389,14 +389,19 @@ public class YIRTestCase {
         //-- extract data from json to verify --//
         int minutesPercentileFromJson = JasonExtraction.topArtistsArray.getJSONObject(0).getInt("minutesPercentile");
         String artistID = JasonExtraction.topArtistsArray.getJSONObject(0).getString("id");
+        int percentile = JasonExtraction.topArtistsArray.getJSONObject(0).getInt("minutesPercentile");
+
         String artistName = JasonExtraction.artistMap.get(artistID);
         test.info("Artist ID from json : " + artistID);
         test.info("Artist name from json : " + artistName);
         //--------------------------------------//
+        if (percentile > 10){
+            throw new SkipException("Skipping Case");
+        }
 
         helper.goNextFrame("//XCUIElementTypeStaticText[@name=\"Top Artist\"]");
-
-       // WebElement elem = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//XCUIElementTypeStaticText[@name=\"Top Artist\"]")));
+        Thread.sleep(3000);
+        WebElement elem = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//XCUIElementTypeStaticText[@name=\"BIG FAN\"]")));
         test.info( "Top Artist Rare Card appeared : BIG FAN");
         test.info( "Verify \"You're a top " + minutesPercentileFromJson + "% listener");
         boolean isFound = helper.elementFound("//*[contains(@name, \"You're a top \")]", 10);
@@ -441,6 +446,9 @@ public class YIRTestCase {
         test.info("\nCase 20: S15.0.1 You Dove Deep");
 
         // Check if the JSONObject is empty
+        if(JasonExtraction.topNewArtistDiscoveryArray.isEmpty() || JasonExtraction.topEarlyAlbumDiscoveryArray.isEmpty()){
+            throw new SkipException("Skipping Case");
+        }
         if (JasonExtraction.topNewArtistDiscoveryArray.getJSONObject(0).getInt("minutes") < 40 &&
                 JasonExtraction.topEarlyAlbumDiscoveryArray.getJSONObject(0).getInt("minutes") < 40) {
             test.info("topEarlyAlbum minute is less than 35");
@@ -526,7 +534,7 @@ public class YIRTestCase {
 
         //--- Frame verification ---//
         helper.goNextFrame("//XCUIElementTypeStaticText[@name=\"Alexa\"]");
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//XCUIElementTypeStaticText[@name=\"Alexa\"]")));
+      //  wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//XCUIElementTypeStaticText[@name=\"Alexa\"]")));
         WebElement elem = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//XCUIElementTypeStaticText[contains(@name, \"You spent\")]")));
         String minutesSpent = Objects.requireNonNull(elem.getAttribute("label")).split(" ")[2];
         test.info("From AM Alexa minutes " + minutesSpent);

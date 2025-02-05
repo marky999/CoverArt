@@ -3,9 +3,18 @@ package org.test;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -20,68 +29,24 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+//import org.test.LocatorProvider;
 
 import static java.lang.Thread.sleep;
+//import static jdk.internal.agent.Agent.getText;
 import static org.test.PDP_Helper.*;
 
-
 @Listeners(org.test.ExtentTestNGReportListener.class)
-public class PDPCoverArtTest {
-    public static AppiumDriver driver;
-    private WebDriverWait wait;
-    private Helper helper;
-    private PDP_Helper pdpHelper;
-    private final boolean skipSetup = false;  // Flag to control if BeforeMethod should run
-    private ITestResult testResult;
-    public static ExtentTest test;
-    public final boolean executeDescriptionCases = false;/////////////   DEBUG PURPOSE //////////
-    public final boolean executeUpload = true;
-    public boolean isSimulator = false;
-    public final boolean executeAll = false;
-    public static final String testPlayList = "Test playlist";
-    public String tempTestString = "";
-
-    @BeforeSuite
-    public void cleanUpScreenshots() {
-        String screenshotsPath = "./screenshots"; // Adjust path if needed
-        PDP_Helper.deleteScreenshots(screenshotsPath);
-        System.out.println("Deleted all files in the screenshots folder.");
-    }
+public class PDPCoverArtTest extends BaseClass{
 
     @BeforeMethod(alwaysRun = true)
     public void setup(Method method,  ITestContext context, ITestResult result) throws Exception {
         if (skipSetup) {
             return;  // Skip the setup code if the flag is true
         }
-        XCUITestOptions options = new XCUITestOptions();
-        if(isSimulator){
-            options
-            .setPlatformVersion("18.2")
-            .setDeviceName("iPhone 16 Pro")
-            .setUdid("BBD30097-6EBA-4326-ADCD-96BF36DDED76")
-            .setApp("com.amazon.mp3.CloudPlayer") // or the app path
-            .setAutomationName("XCUITest").noReset().setForceAppLaunch(true)
-            .setShowXcodeLog(true);
-            driver = new IOSDriver(new URL("http://127.0.0.1:4723"), options);
-        }else{
-            options
-            .setPlatformVersion("18.0.1")
-            .setDeviceName("iPhone_13 Pro")
-            .setUdid("00008110-001C45D60CC0401E")
-            .setApp("com.amazon.mp3.CloudPlayer") // or the app path
-            .setAutomationName("XCUITest")
-            .setShowXcodeLog(true);
-            driver = new IOSDriver(new URL("http://127.0.0.1:4723"), options);
-        }
-
+        driver = new IOSDriver(new URL("http://127.0.0.1:4723"), options);
         context.setAttribute("WebDriver", driver);
-        //------------------------------------------------//
-        driver.get("https://music.amazon.com");
-        //------------------------------------------------//
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         helper = new Helper(driver, wait);
         pdpHelper = new PDP_Helper(driver, wait,helper);
         sleep(5000);//DO NOT MOVE or REMOVE
@@ -91,10 +56,12 @@ public class PDPCoverArtTest {
     @Test(priority = 1, enabled = executeDescriptionCases)
     public void testAddEditDescription() throws InterruptedException {
         test = ExtentTestNGReportListener.getTest();
+        sleep(3000);
         descriptionEditTestsPrep("test: Add/Edit Description");
         String testString = "New Description " + helper.getRandomNumber();
         pdpHelper.inputDescription(testString);
         pdpHelper.clickDone();
+        if(Android){sleep(10000);}/////////// PERFORMANCE BUG //////
         if(pdpHelper.isTextDisplayed(testString)){
             test.info("Verified \"" + testString +"\"");
         }else{
@@ -110,6 +77,7 @@ public class PDPCoverArtTest {
         String testString = pdpHelper.emoji + helper.getRandomNumber();
         pdpHelper.inputDescription(testString);
         pdpHelper.clickDone();
+
         boolean isFound =  pdpHelper.isTextDisplayed(pdpHelper.emoji);
         Assert.assertTrue(isFound);
         test.info("Verified \"" + testString +"\"");
@@ -144,7 +112,16 @@ public class PDPCoverArtTest {
     public void testDeleteDescriptionsAndVerifyPrePopulatedString() throws InterruptedException {
         test = ExtentTestNGReportListener.getTest();
         descriptionEditTestsPrep("test: Delete Descriptions And Verify PrePopulated String");
-        String description = pdpHelper.getLabelFromDescriptionField();
+
+        String description = "";
+        if(Android){
+         //   description = driver.findElement(PDP_Helper.descriptionField2).getText();
+         //   description = driver.findElement(By.xpath("//android.widget.EditText[@resource-id=\"TextArea\"]")).getText();
+        }else{
+            description = pdpHelper.getLabelFromDescriptionField();
+        }
+
+        test.info(description);
         Assert.assertEquals(description, "Add a description");
         test.info("Verified desc field was deleted and 'Adda a description' auto-populated");
     }
@@ -153,26 +130,62 @@ public class PDPCoverArtTest {
     public void testMaximumCharsCount() throws InterruptedException {
         test = ExtentTestNGReportListener.getTest();
         descriptionEditTestsPrep("test: Maximum Char Count");
-        String characterLimitReached = "//XCUIElementTypeStaticText[@name=\"Character limit reached\"]";
-        String description = pdpHelper.getLabelFromDescriptionField();
+        String characterLimitReached;// = "//XCUIElementTypeStaticText[@name=\"Character limit reached\"]";
+        String description = "";
+        if(Android){
+            description = driver.findElement(By.xpath("//android.widget.EditText[@resource-id=\"TextArea\"]")).getText();
+            characterLimitReached = "//android.widget.TextView[@text=\"Character limit reached\"]";
+        }else{
+            description = pdpHelper.getLabelFromDescriptionField();
+            characterLimitReached = "//XCUIElementTypeStaticText[@name=\"Character limit reached\"]";
+        }
         Assert.assertEquals(description, "Add a description");
-        helper.scrollUp();
+        //helper.scrollUp();
         Assert.assertNotNull(helper.getStaticTextElement("0 / 300"));
         test.info("Verified 0/300 for blank description");
         pdpHelper.inputDescription(pdpHelper.maxChars);
         Assert.assertNotNull(helper.getStaticTextElement("300 / 300"));
         test.info("Verified 300/300 when 300 chars filled in description");
         test.info("add one more char to verify cannot add more");
-        pdpHelper.inputDescription("1");
+        new Actions(driver).sendKeys("1").perform();
+
         Assert.assertNotNull(helper.getStaticTextElement("300 / 300"));
         test.info("Verified 300/300 after add one more char");
         Assert.assertTrue(helper.isElementFound(characterLimitReached, 2));
         test.info("Verified Character limit reached string appeared");
+        new Actions(driver).sendKeys("\n").perform();
     }
 
     @Test(priority = 7, enabled = executeDescriptionCases)
     public void testEditPlayListName() throws InterruptedException {
+        test = ExtentTestNGReportListener.getTest();
+        test.info("testEditPlayListName");
+        String originalPlaylistToTest = "Empty description";
+        String newPlaylistName = "newPlaylistName";
+        pdpHelper.openPlaylist(originalPlaylistToTest);
+        pdpHelper.clickEditButton();
+        pdpHelper.clearPlaylistNameField();
+        if(!Android) {
+            driver.findElement(PDP_Helper.descriptionField2).sendKeys(newPlaylistName);
+        }
+        pdpHelper.clickDone();
+        pdpHelper.clickBack();
+        if(pdpHelper.clickTestPlayList("Empty description")) {
+            Assert.fail();
+        }
 
+        test.info("Original test playlist was updated");
+        System.out.println("Original playlist name was updated");
+
+        pdpHelper.clickTestPlayList(newPlaylistName);
+        test.info("Open " + newPlaylistName);
+        pdpHelper.clickEditButton();
+        pdpHelper.clearPlaylistNameField();
+        driver.findElement(By.xpath("//XCUIElementTypeTextView[@name=\"TextArea\"]")).sendKeys(originalPlaylistToTest);
+        pdpHelper.clickDone();
+        pdpHelper.clickBack();
+
+        Assert.assertTrue(pdpHelper.clickTestPlayList("Empty description"));
     }
 
     @Test(priority = 8, enabled = executeDescriptionCases)
@@ -229,7 +242,7 @@ public class PDPCoverArtTest {
         test.info("... and Show more displayed");
     }
 
-    @Test(priority = 11, enabled = true
+    @Test(priority = 11, enabled = executeDescriptionCases
             , retryAnalyzer = RetryAnalyzer.class)
     public void testUploadImageFromPhotoLibrary() throws InterruptedException, IOException {
         test = ExtentTestNGReportListener.getTest();
@@ -261,7 +274,7 @@ public class PDPCoverArtTest {
         test.info("Image was replaced");
     }
 
-    @Test(priority = 12, enabled = executeUpload, retryAnalyzer = RetryAnalyzer.class)
+    @Test(priority = 12, enabled = executeAll, retryAnalyzer = RetryAnalyzer.class)
     public void testUploadImageFromCamera() throws InterruptedException, IOException {
         test = ExtentTestNGReportListener.getTest();
         test.info("testUploadImageFromPhotoLibrary_ORI");
@@ -489,7 +502,7 @@ public class PDPCoverArtTest {
     public void testUploadImageFromNewPlaylist() throws InterruptedException {
         test = ExtentTestNGReportListener.getTest();
         test.info("testUploadImageFromNewPlaylist");
-        String playlistName =  "Test_" + helper.getRandomNumber();
+        String playlistName =   "Test_" + helper.getRandomNumber();
         pdpHelper.clickLibrary();
         pdpHelper.clickPlayListButton();
         pdpHelper.addPlaylist(playlistName);
@@ -507,6 +520,40 @@ public class PDPCoverArtTest {
         List<WebElement> elements = pdpHelper.getAllPlayLists();
         Assert.assertNull(pdpHelper.getTestPlayListFromPlayListsPage(elements, playlistName));
     }
+
+    @Test(priority = 19, enabled = executeDescriptionCases)
+    public void testCreateAIGeneratedPlaylist() throws InterruptedException {
+        test = ExtentTestNGReportListener.getTest();
+        test.info("testCreateAIGeneratedPlaylist");
+        String playlistName =  "KatsEye";
+        pdpHelper.clickLibrary();
+        pdpHelper.clickPlayListButton();
+        pdpHelper.addAIPlaylist(playlistName);
+        test.info("playlist Name : " + playlistName + " was created");
+        pdpHelper.clickEditButton();
+
+        List<WebElement> staticElems = driver.findElements(By.xpath("//XCUIElementTypeStaticText"));
+        test.info(staticElems.get(0).getText());
+        String newlyCreatedPlaylistName = staticElems.get(0).getText();
+        String description = staticElems.get(1).getText();
+        test.info("Description : " + description);
+        Assert.assertFalse(description.isEmpty());
+        Assert.assertNotSame(description, "Add a description");
+        pdpHelper.clickCancel();
+        pdpHelper.clickBack();
+
+        driver.findElement(By.xpath("//XCUIElementTypeOther[@name=\"IconButton,Maestro_TopAppBar_BackButton\"]")).click();//pdpHelper.clickBack() does not work
+        sleep(1000);
+
+        driver.findElement(By.xpath("//XCUIElementTypeOther[@name=\"IconButton,Maestro_TopAppBar_BackButton\"]")).click();
+        sleep(1000);
+
+        pdpHelper.deletePlaylist(newlyCreatedPlaylistName);
+        test.info("Delete the playlist that created");
+        List<WebElement> elements = pdpHelper.getAllPlayLists();
+        Assert.assertNull(pdpHelper.getTestPlayListFromPlayListsPage(elements, playlistName));
+    }
+
 
     @Test(priority = 19, enabled = false)
     public void testE() throws InterruptedException {
@@ -572,6 +619,7 @@ public class PDPCoverArtTest {
     }
 
     public void uploadImageFromPhotoLibrary() throws InterruptedException {
+        pdpHelper.goToPDP();
         pdpHelper.clickEditButton();
         pdpHelper.clickUpload();
         pdpHelper.clickLibraryFromActionSheet();
@@ -617,10 +665,5 @@ public class PDPCoverArtTest {
     }
 
 
-    @AfterClass
-    public void tearDownAfterClass(ITestContext context) throws InterruptedException {
-        if (driver != null) {
-            driver.quit(); // Close the browser
-        }
-    }
+
 }

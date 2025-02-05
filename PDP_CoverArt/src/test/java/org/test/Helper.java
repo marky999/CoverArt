@@ -166,12 +166,22 @@ public class Helper {
     }
 
     public WebElement getStaticTextElement(String str){
-        return driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@name,\"" + str + "\")]"));
+        if(PDPCoverArtTest.Android){
+            return driver.findElement(By.xpath("//android.widget.TextView[@text=\""+ str + "\"]"));
+        }else
+        {
+            return driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@name,\"" + str + "\")]"));
+        }
     }
 
     public WebElement getTypeOtherElement(String str){
         return driver.findElement(By.xpath("//XCUIElementTypeOther[@name=\"" + str + "\"]"));
     }
+
+    public WebElement getTypeSearchFieldElement(String str){
+        return driver.findElement(By.xpath("//XCUIElementTypeSearchField[contains[@name,\"" + str + "\"]"));
+    }
+
 
     public boolean isElementExist(By xpath) {
         return !driver.findElements(xpath).isEmpty();
