@@ -9,19 +9,21 @@ import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import ru.yandex.qatools.ashot.comparison.ImageDiff;
+import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.Duration;
 import java.util.*;
-
 import static org.test.PDPCoverArtTest.test;
 import static org.testng.Assert.assertNotNull;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
-import io.appium.java_client.MultiTouchAction;
-import java.time.Duration;
 
 public class Helper {
     private final AppiumDriver driver;
@@ -31,11 +33,19 @@ public class Helper {
     public final String weFound_xpath = "//XCUIElementTypeStaticText[@name=\"We spent \"]";
 
 
-    public Helper(AppiumDriver driver, WebDriverWait wait){
+    public Helper(AppiumDriver driver) throws MalformedURLException {
         this.driver = driver;
-        this.wait = wait;
+
     }
 
+    public void blindTap(int x, int y){
+            PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+            Sequence tap = new Sequence(finger, 1);
+            tap.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), x, y)); // Coordinates (x=500, y=500)
+            tap.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+            tap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+            driver.perform(List.of(tap));
+    }
     public void pinchOut(WebElement element) {
         int centerX = element.getRect().getX() + element.getSize().getWidth() / 2;
         int centerY = element.getRect().getY() + element.getSize().getHeight() / 2;
@@ -113,6 +123,14 @@ public class Helper {
         test.info("Scroll right to left");
     }
 
+    public boolean isImageSame( File img1, File img2) throws IOException {
+        BufferedImage image1 = ImageIO.read(img1);
+        BufferedImage image2 = ImageIO.read(img2);
+        ImageDiffer imgDiff = new ImageDiffer();  // Use a library like AShot
+        ImageDiff diff = imgDiff.makeDiff(image1, image2);
+
+        return !diff.hasDiff();
+    }
 
     public boolean isElementFound(String xpath, int waitDuration ) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(waitDuration));
@@ -167,7 +185,18 @@ public class Helper {
 
     public WebElement getStaticTextElement(String str){
         if(PDPCoverArtTest.Android){
-            return driver.findElement(By.xpath("//android.widget.TextView[@text=\""+ str + "\"]"));
+            try{
+                driver.findElement(By.xpath("//android.widget.TextView[@text= \"" + str + "\"]"));
+                return driver.findElement(By.xpath("//android.widget.TextView[@text= \"" + str + "\"]"));
+            }catch(Exception e){
+                try{
+                    driver.findElement(By.xpath("//android.widget.Button[@text= \"" + str + "\"]"));
+                    return driver.findElement(By.xpath("//android.widget.Button[@text= \"" + str + "\"]"));
+
+                }catch (Exception e1){
+                    return null;
+                }
+            }
         }else
         {
             return driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@name,\"" + str + "\")]"));

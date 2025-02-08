@@ -7,12 +7,19 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.test.ExtentReportsManager; // Adjust package name as needed
 
-import static org.test.PDPCoverArtTest.capturePresentScreenShot;
+import  org.test.PDPCoverArtTest;
+
+import java.net.MalformedURLException;
+
 import static org.test.PDPCoverArtTest.test;
 
 public class ExtentTestNGReportListener implements ITestListener {
 
-    private static ThreadLocal<ExtentTest> testThread = new ThreadLocal<>();
+    private static final ThreadLocal<ExtentTest> testThread = new ThreadLocal<>();
+    PDPCoverArtTest pdp_cover_art_test = new PDPCoverArtTest();
+
+    public ExtentTestNGReportListener() throws MalformedURLException {
+    }
 
     @Override
     public void onTestStart(ITestResult result) {
@@ -23,13 +30,21 @@ public class ExtentTestNGReportListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        capturePresentScreenShot(test, result.getTestName());
+        try {
+            PDP_Helper.CapturePresentScreenShot(test, result.getTestName());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
         testThread.get().log(Status.PASS, "Test Passed");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        capturePresentScreenShot(test, result.getTestName());
+        try {
+            PDP_Helper.CapturePresentScreenShot(test, result.getTestName());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
 
         testThread.get().log(Status.FAIL, "Test Failed: " + result.getThrowable());
     }
@@ -47,4 +62,6 @@ public class ExtentTestNGReportListener implements ITestListener {
     public static ExtentTest getTest() {
         return testThread.get();
     }
+
+
 }

@@ -3,11 +3,35 @@ package org.test;
 import org.openqa.selenium.By;
 
 public class LocatorProvider {
+    public static String platform = System.getProperty("platformName", "Android");  // Or use a config file
+
+    public static String getStringLocator(String str){
+        System.out.println("platform -> " + platform);
+        switch (platform){
+            case "Android":
+                return getAndroidString(str);
+            case "iOS":
+                return getiOSString(str);
+            default:
+                throw new IllegalArgumentException("Unsupported platform: " + platform);
+        }
+    }
+
+    public static String getAndroidString(String str){
+        return switch (str) {
+            case "characterLimitReached" -> "//android.widget.TextView[@text=\"Character limit reached\"]";
+            default -> throw new IllegalArgumentException("Unknown element: " + str);
+        };
+    }
+
+    public static String getiOSString(String str){
+        return switch (str) {
+            case "characterLimitReached" -> "//XCUIElementTypeStaticText[@name=\"Character limit reached\"]";
+            default ->  throw new IllegalArgumentException("Unsupported platform: " + str);
+        };
+    }
 
     public static By getElementLocator(String elementName) {
-        String platform = System.getProperty("platformName", "Android");  // Or use a config file
-        platform = platform.trim();
-
         switch (platform) {
             case "Android":
                 return getAndroidLocator(elementName);
@@ -21,7 +45,7 @@ public class LocatorProvider {
     private static By getAndroidLocator(String elementName) {
         return switch (elementName) {
             case "libraryButton" ->
-                    By.xpath("//android.widget.TextView[@resource-id=\"com.amazon.mp3:id/tab_bar_text_three\"]");
+                    By.xpath("//android.widget.ImageView[@resource-id=\"com.amazon.mp3:id/tab_bar_image_three\"]");
             case "playListPill" ->
                     By.xpath("//android.widget.Button[@resource-id=\"com.amazon.mp3:id/pill_button\" and @text=\"Playlists\"]");
             case "allPlayLists" -> By.xpath("//android.widget.TextView[@resource-id='com.amazon.mp3:id/PlaylistName']");
@@ -29,6 +53,10 @@ public class LocatorProvider {
             case "descriptionField" -> By.id("com.amazon.mp3:id/TextArea_text");
             case "descriptionField2" -> By.xpath("//android.widget.EditText[@resource-id=\"TextArea\"]");
             case "saveButton" -> By.xpath("//android.widget.TextView[@text=\"SAVE\"]");
+            case "chooseButton" -> By.xpath("//XCUIElementTypeStaticText[@name=\"Choose\"]");
+            case "backButton" -> By.xpath("//android.widget.Button[@content-desc=\"Go back\"]/android.view.ViewGroup");
+            case "cancelText" -> By.xpath("//android.widget.Button[@content-desc=\"Go back\"]/android.view.ViewGroup");
+            case "cancelButton" -> By.xpath("//XCUIElementTypeButton[@name=\"Cancel\"]");
             default -> throw new IllegalArgumentException("Unknown element: " + elementName);
         };
     }
@@ -45,6 +73,9 @@ public class LocatorProvider {
             case "descriptionField2" -> By.xpath("//XCUIElementTypeTextView[@name=\"TextArea\"]");
             case "saveButton" -> By.xpath("//XCUIElementTypeButton[@name=\"BauhausTextButton,TopAppBar_Done\"]");
             case "chooseButton" -> By.xpath("//XCUIElementTypeStaticText[@name=\"Choose\"]");
+            case "backButton" -> By.xpath("//XCUIElementTypeButton[contains(@name, 'Back')]");
+            case "cancelText" -> By.xpath("//XCUIElementTypeStaticText[@name=\"Cancel\"]");
+            case "cancelButton" -> By.xpath("//XCUIElementTypeButton[@name=\"Cancel\"]");
             default -> throw new IllegalArgumentException("Unknown element: " + elementName);
         };
     }

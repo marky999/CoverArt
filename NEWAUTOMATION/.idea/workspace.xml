@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b070aebb-3b2a-4d01-97c7-4615e1a5d391" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../PDP_CoverArt/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../PDP_CoverArt/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/BaseClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/LocatorProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/DriverManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/BaseClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/BaseClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/ExtentTestNGReportListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/ExtentTestNGReportListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/Helper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/LocatorProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/LocatorProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/PDPCoverArtTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/PDPCoverArtTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/PDP_Helper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/PDP_Helper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../YIR_Performance/src/test/java/org/example/YIRShareOpecCloseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../YIR_Performance/src/test/java/org/example/YIRShareOpecCloseTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../YIR_Performance/src/test/java/org/example/YIRTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/../YIR_Performance/src/test/java/org/example/YIRTestCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/ScreenshotUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PDP_CoverArt/src/test/java/org/test/ScreenshotUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
