@@ -21,16 +21,13 @@ import java.time.Duration;
 import java.util.*;
 import static java.lang.Thread.sleep;
 import static org.test.PDP_Helper.*;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
 
 @Listeners(org.test.ExtentTestNGReportListener.class)
 public class PDPCoverArtTest extends BaseClass{
-    ScreenshotUtils  screenshotUtils;
     Helper helper;
     PDP_Helper pdpHelper;
 
-    public PDPCoverArtTest() throws MalformedURLException {
+    public PDPCoverArtTest()  {
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -44,7 +41,7 @@ public class PDPCoverArtTest extends BaseClass{
         pdpHelper = new PDP_Helper();
         helper = new Helper(driver);
         sleep(5000);//DO NOT MOVE or REMOVE
-        this.testResult = result;
+        testResult = result;
     }
 
     @Test(priority = 1, enabled = executeDescriptionCases)
@@ -106,7 +103,7 @@ public class PDPCoverArtTest extends BaseClass{
         test = ExtentTestNGReportListener.getTest();
         descriptionEditTestsPrep("test: Delete Descriptions And Verify PrePopulated String");
 
-        String description = "";
+        String description ;
         if(Android){
             description = driver.findElement(PDP_Helper.descriptionField2).getText();
         }else{
@@ -123,8 +120,8 @@ public class PDPCoverArtTest extends BaseClass{
     public void testMaximumCharsCount() throws InterruptedException {
         test = ExtentTestNGReportListener.getTest();
         descriptionEditTestsPrep("test: Maximum Char Count");
-        String characterLimitReached;
-        String description = "";
+
+        String description ;
         if(Android){
             description = driver.findElement(By.xpath("//android.widget.EditText[@resource-id=\"TextArea\"]")).getText();
             //characterLimitReached = "//android.widget.TextView[@text=\"Character limit reached\"]";
