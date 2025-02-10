@@ -267,19 +267,26 @@ public class PDPCoverArtTest extends BaseClass{
     }
 
     @Test(priority = 12, enabled = true)
-    public void testUploadedImageReflectedInPlaylistsThumbnail() throws InterruptedException, IOException {
+    public void testUploadedImageReflectedInPlaylistsPage() throws InterruptedException, IOException {
         test = ExtentTestNGReportListener.getTest();
         test.info("testUploadedImageReflectedInPlaylistsThumbnail");
         test.info("open custom CoverArt Playlist => verify those two images are different)");
         pdpHelper.clickLibrary();
         pdpHelper.clickPlayListButton();
-        capturePresentScreenShot(test, "oriPlaylistsThumbnail");
-        File originalThumbImage = pdpHelper.captureThumbNailFromPlaylists("OriginalPlayListImageInPlaylists.png");
+
+        capturePresentScreenShot(test, "originalPlaylistsPage");
+
+        //TODO to compare actual thumb
+        File originalThumbImage = pdpHelper.captureThumbNailFromPlaylists("OriginalPlayListThumbInPlaylists.png");
+        test.info("originalPlaylistThumb",
+                MediaEntityBuilder.createScreenCaptureFromPath("screenshots/OriginalPlayListThumbInPlaylists.png").build());
         pdpHelper.clickTestPlayList();
         uploadImageFromPhotoLibrary();
-        pdpHelper.clickPlayListButton();
-        File uploadedThumbImage = pdpHelper.captureThumbNailFromPlaylists("uploadedPlayListImageInPlaylists.png");
 
+        pdpHelper.clickPlayListButton();
+        File uploadedThumbImage = pdpHelper.captureThumbNailFromPlaylists("afterUploadedPlaylistThumb.png");
+        test.info("afterUploadedPlaylistThumb",
+                MediaEntityBuilder.createScreenCaptureFromPath("screenshots/afterUploadedPlaylistThumb.png").build());
         Assert.assertFalse(helper.isImageSame(originalThumbImage, uploadedThumbImage));
         test.info("Images are reflected");
     }
@@ -291,22 +298,31 @@ public class PDPCoverArtTest extends BaseClass{
         test.info("open custom CoverArt Playlist => verify those two images are different)");
         pdpHelper.clickLibrary();
         pdpHelper.clickPlayListButton();
-
-        File originalThumbImage = pdpHelper.captureThumbNailFromPlaylists("OriginalPlayListImageInPlaylists.png");
-
+        String imgPath2 = ScreenshotUtils.CaptureScreenshot(driver, "TestplayThumb");
+        test.info("Before action",
+                MediaEntityBuilder.createScreenCaptureFromPath(imgPath2).build());
+        File originalThumbImage = pdpHelper.captureThumbNailFromPlaylists("Testplay.png");
+        test.info("Playlist Thumb",
+                MediaEntityBuilder.createScreenCaptureFromPath("screenshots/Testplay.png").build());
         //click more
         int n = appearanceInPlaylists(pdpHelper.getAllPlayLists(),  testPlayList) - 1;
         driver.findElement(By.xpath("(//XCUIElementTypeButton[@name=\"AMToolbarButtonItemType_moreOptions\"])[" + n + "]")).click();
+        String imgPath3 = ScreenshotUtils.CaptureScreenshot(driver, "Click ...");
+        test.info("Click ...",
+                MediaEntityBuilder.createScreenCaptureFromPath(imgPath3).build());
+
         //click Share Button
         driver.findElement(By.xpath("//XCUIElementTypeCell[@name=\"AMMContextMenuShare\"]")).click();
         sleep(2000);
+        String imgPath = ScreenshotUtils.CaptureScreenshot(driver, "Click Share");
+        test.info("Click Share",
+                MediaEntityBuilder.createScreenCaptureFromPath(imgPath).build());
+
         // thumb in ShareSheet
         String xpathOfShareThumbNail = "//XCUIElementTypeWindow[1]/XCUIElementTypeOther[3]/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeImage";
         File shareSheetThumbNail = ScreenshotUtils.captureElementScreenShot(xpathOfShareThumbNail, "shareSheetThumbNail.png");
 
-        File uploadedThumbImage = pdpHelper.captureThumbNailFromPlaylists("uploadedPlayListImageInPlaylists.png");
-
-        Assert.assertTrue(helper.isImageSame(originalThumbImage, uploadedThumbImage));
+        Assert.assertTrue(helper.isImageSame(originalThumbImage, shareSheetThumbNail));
         test.info("Images are reflected");
     }
 
@@ -365,7 +381,7 @@ public class PDPCoverArtTest extends BaseClass{
     public void testUploadedImageReflectedInLibraryPage() throws InterruptedException, IOException {
         //==============      BUG LOGGED     ==========//
         test = ExtentTestNGReportListener.getTest();
-        test.info("test whether Uploaded Image is Reflected In LibraryPage");
+        test.info("test whether Uploaded Image is Reflected In Library Landing Page");
 
         //Scroll and find test playList From Library Playlist Widget
         WebElement playlistMyLikes = getPlaylistMyLikes();

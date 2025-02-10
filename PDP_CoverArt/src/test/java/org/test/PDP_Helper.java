@@ -89,7 +89,7 @@ public class PDP_Helper {
     }
 
     public  File captureThumbNailFromPlaylists(String imgFileName) throws IOException {
-        int n = appearanceInPlaylists(getAllPlayLists(),  testPlayList) - 2;// get the placement of the playlist
+        int n = appearanceInPlaylists(getAllPlayLists(),  testPlayList) - 1;// get the placement of the playlist
         String xPathOfPlayList = "(//XCUIElementTypeOther[@name='Artwork'])[" + n  + "]";
 
        try{
