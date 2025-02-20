@@ -5,6 +5,12 @@
     </listeners>
 
     <test name="PDPCoverArtTest">
+        <groups>
+            <run>
+                <exclude name="descriptionCases"/>
+<!--                <exclude name="uploadCases"/>-->
+            </run>
+        </groups>
         <classes>
             <class name="org.test.PDPCoverArtTest" />
         </classes>

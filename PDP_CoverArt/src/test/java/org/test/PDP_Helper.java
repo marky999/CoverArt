@@ -14,13 +14,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import static java.lang.Thread.sleep;
+import static org.test.BaseClass.driver;
 import static org.test.PDPCoverArtTest.test;
 import static org.test.PDPCoverArtTest.testPlayList;
 public class PDP_Helper {
     //============================================================//
-    static String  uploadButton = "(//XCUIElementTypeOther[@name=\"Box\"])[4]/XCUIElementTypeOther[3]";
+    static String uploadButton = "(//XCUIElementTypeOther[@name=\"Box\"])[4]/XCUIElementTypeOther[3]";
     static String currentCoverArt = "(//XCUIElementTypeOther[@name=\"Imagery_EqualizerPlaceholder\"])[1]";
     static String default2x2Image = "(//XCUIElementTypeOther[@name=\"Imagery_EqualizerPlaceholder\"])[1]";
+    static String currentImageXpath = "//XCUIElementTypeOther[@name=\"Box\" and @label=\"Selected picture Upload\"]";
+    static String actionSheet = "//XCUIElementTypeStaticText[contains(@label, 'Launch Library') or contains(@label, 'Launch Camera')]";
+    static String staticTextsXpath = "//XCUIElementTypeStaticText";
+    //"//XCUIElementTypeOther[@name=\"IconButton,Maestro_TopAppBar_BackButton\"
     final  String maxChars = "123456789012345678901234567890123456789012345678901234567890" +
             "123456789012345678901234567890123456789012345678901234567890" +
             "123456789012345678901234567890123456789012345678901234567890" +
@@ -43,6 +48,11 @@ public class PDP_Helper {
 //===================================================================================================//
     Helper helper = new Helper(BaseClass.driver);
     public PDP_Helper() throws MalformedURLException {
+    }
+
+    public void goToMyProfile(){
+        driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"CustomerProfileWidgetAccessibilityIdentifier_Avatar_Image\"]")).click();
+        driver.findElement(By.xpath("//XCUIElementTypeCell[@name=\"AMMContextMenuProfile\"]")).click();
 
     }
 
@@ -51,10 +61,8 @@ public class PDP_Helper {
             helper.getTypeOtherElement("PickImage_SelectedImageView").click();
         }catch(Exception e)                            //XCUIElementTypeOther[@name="PickImage_SelectedImageView"]
         {
-            sleep(1000);
             BaseClass.driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name=\"Upload\"]")).click();
         }
-        sleep(1000);
     }
 
     public void addPlaylist(String playlistName) throws InterruptedException {
@@ -63,14 +71,16 @@ public class PDP_Helper {
         helper.getTextFieldElement("AMPlaylistListViewControllerTextFieldIdentifier").sendKeys(playlistName);
         //BaseClass.driver.findElement(By.xpath("//XCUIElementTypeTextField[@name=\"AMPlaylistListViewControllerTextFieldIdentifier\"]")).sendKeys(playlistName);
         helper.getStaticTextElement("Save").click();
-        sleep(2000);
+        sleep(1000);
     }
 
+    public void tapNewPlaylistButton(){
+        driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"AMMCreateNewPlaylistButtonAccessibilityIdentifer\"]")).click();
+    }
     public void addAIPlaylist(String playlistName) throws InterruptedException {
-        BaseClass.driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"AMMCreateNewPlaylistButtonAccessibilityIdentifer\"]")).click();
-        sleep(2000);
+        tapNewPlaylistButton();
         helper.getStaticTextElement("Create with AI").click();
-        sleep(4000);
+        sleep(3000);
         if(PDPCoverArtTest.Android)
         {
             BaseClass.driver.findElement(By.xpath("//android.widget.TextView[@content-desc=\"Type your playlist idea here\"]")).sendKeys(playlistName  + "\n" );
@@ -85,11 +95,11 @@ public class PDP_Helper {
                 ExpectedConditions.elementToBeClickable(By.xpath("//XCUIElementTypeButton[@name=\"Button,Maestro_Button_SavePlaylist\"]"))
         );
         savePlaylistButton.click();
-        sleep(5000);
+        sleep(3000);
     }
 
     public  File captureThumbNailFromPlaylists(String imgFileName) throws IOException {
-        int n = appearanceInPlaylists(getAllPlayLists(),  testPlayList) - 1;// get the placement of the playlist
+        int n = appearanceInPlaylists(getAllPlayLists(),  testPlayList) - 2;// get the placement of the playlist
         String xPathOfPlayList = "(//XCUIElementTypeOther[@name='Artwork'])[" + n  + "]";
 
        try{
@@ -102,19 +112,46 @@ public class PDP_Helper {
     }
     public void clickRandomImageFromLibrary() throws InterruptedException {
         List<WebElement> elems =  BaseClass.driver.findElements(By.xpath("//XCUIElementTypeOther[@name=\"PXGGridLayout-Group\"]/*"));
-        System.out.println(elems.size());
+       // System.out.println(elems.size());
         Random random = new Random();
         int digit = random.nextInt(elems.size()); // Generates a random number between 0 and 9
 
         elems.get(digit).click();
         test.info(digit + "th image clicked");
-        sleep(1000);
+    }
+
+    public void createCustomPlaylist(String playlistName) throws InterruptedException {
+        clickLibrary();
+        clickPlayListButton();
+        tapNewPlaylistButton();
+        helper.getStaticTextElement("Curate a playlist").click();
+
+        if(PDPCoverArtTest.Android)
+        {
+            BaseClass.driver.findElement(By.xpath("//android.widget.TextView[@content-desc=\"Playlist name\"]")).sendKeys(playlistName  + "\n" );
+        }
+        else{
+            BaseClass.driver.findElement(By.xpath("//XCUIElementTypeTextField[@name=\"AMPlaylistListViewControllerTextFieldIdentifier\"]")).sendKeys(playlistName +"\n");
+        }
+        String screenshotPath = ScreenshotUtils.CaptureScreenshot(driver, "customCuratedPlaylist");
+        test.info("customCuratedPlaylist",
+                MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
+        clickSave();
+        clickAddSongs();
+        List<WebElement> elems = driver.findElements(By.xpath("(//XCUIElementTypeButton[@name='IconButton,VisualRowItem_AddButton'])"));
+        for(WebElement elem : elems){
+            elem.click();
+        }
+        closeAddSongsPage();
     }
 
     public void clickChoose() throws InterruptedException {
         clickButton("Choose");
         test.info("Click Choose");
-        sleep(1000);
+    }
+
+    public void clickAddSongs(){
+        driver.findElement(By.xpath("//XCUIElementTypeButton[@name='Button,PlaylistDetailPage_AddSongsEmptyButton']")).click();
     }
 
     public void clickButton(String str) throws InterruptedException {
@@ -134,21 +171,25 @@ public class PDP_Helper {
             default:
                 System.out.println("error");
         }
-        sleep(1000);
+        test.info("Click " + str);
+    }
+
+    public void clickHome(){
+        driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"AMBrowseNavigationTabIconAccessibilityIdentifier\"]")).click();
     }
 
     public void clickLibraryFromActionSheet() throws InterruptedException {
-        if(helper.isElementExist(By.xpath("//XCUIElementTypeButton[@name=\"Allow Full Access\"]"))){
-            BaseClass.driver.findElement(By.xpath("//XCUIElementTypeButton[@name=\"Allow Full Access\"]")).click();
-        }
-        BaseClass.driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@label, 'Launch Library')]")).click();
-        sleep(1000);
+        String photoLibrary = LocatorProvider.getStringLocator("photoLibraryButton");
+        driver.findElement(By.xpath(photoLibrary)).click();
+
+       // BaseClass.driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@label, 'Launch Library')]")).click();
         test.info("Library menu clicked from Action sheet");
     }
 
     public void clickCameraFromActionSheet() throws InterruptedException {
-        BaseClass.driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@label, 'Launch Camera')]")).click();
-        sleep(3000);
+        String launchCamera = LocatorProvider.getStringLocator("launchCamera");
+        driver.findElement(By.xpath(launchCamera)).click();
+        sleep(2000);
         test.info("click Camera");
     }
 
@@ -159,7 +200,7 @@ public class PDP_Helper {
             return elems.get(1).getText().equals(str);
         }else {
             try {
-                return BaseClass.driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@label, \"" + str + "\")]")).isDisplayed();
+                return driver.findElement(By.xpath("//XCUIElementTypeStaticText[contains(@label, \"" + str + "\")]")).isDisplayed();
             } catch (Exception e) {
                 return false;
             }
@@ -191,6 +232,10 @@ public class PDP_Helper {
         sleep(1000);
         if(PDPCoverArtTest.Android){sleep(10000);}/////////// PERFORMANCE BUG //////
 
+    }
+
+    public void clickSave(){
+        driver.findElement(By.xpath("//XCUIElementTypeStaticText[@name=\"Save\"]")).click();
     }
 
     public void clickCancel() throws InterruptedException {
@@ -316,6 +361,7 @@ public class PDP_Helper {
             textFields.get(0).click();
         }
         BaseClass.driver.findElement(descriptionField2).clear();
+        test.info("Cleared the playlist name field");
     }
 
     public void openPlaylist(String playlist) throws InterruptedException {
@@ -323,7 +369,6 @@ public class PDP_Helper {
         clickPlayListButton();
         clickTestPlayList(playlist);
         test.info("Open PDP");
-        sleep(2000);
     }
 
     public void goToPDP() throws InterruptedException {
@@ -331,14 +376,13 @@ public class PDP_Helper {
         clickPlayListButton();
         clickTestPlayList();
         test.info("Open PDP");
-        sleep(4000);
     }
 
     public void clickTestPlayList() throws InterruptedException {
         //open default playlist, Test playlist
         List<WebElement> elements = getAllPlayLists();
         test.info(clickTestPlayListFromPlayListsPage(elements, testPlayList) ? "Open PDP" : "Test Playlist Not Found");
-        sleep(2000);
+        sleep(2000);//DO NOT REMOVE. NEEDS to stabilize for screenshot
     }
 
     public boolean clickTestPlayList(String playlist) throws InterruptedException {
@@ -346,7 +390,6 @@ public class PDP_Helper {
         List<WebElement> elements = getAllPlayLists();
         boolean isTapped = clickTestPlayListFromPlayListsPage(elements, playlist);
         test.info(isTapped ? "Open PDP" : "Test Playlist Not Found");
-        sleep(2000);
         return isTapped;
     }
 
@@ -363,13 +406,16 @@ public class PDP_Helper {
         } catch (Exception e) {
             BaseClass.driver.findElement(By.xpath("//XCUIElementTypeOther[contains(@name, 'Back')]")).click();
         }
-        sleep(1000);
+        test.info("Click back");
+    }
+
+    public void closeAddSongsPage(){
+        driver.findElement(By.xpath("//XCUIElementTypeButton[@name='IconButton,TopAppBar_CloseButton']")).click();
     }
 
     public void inputDescription(String testString) throws InterruptedException {
         BaseClass.driver.findElement(descriptionField2).sendKeys(testString);
         test.info("input " + testString);
-        sleep(1000);
     }
 
     public void clickLibrary() throws InterruptedException {
@@ -381,7 +427,6 @@ public class PDP_Helper {
 
         elem.click();
         test.info("click Library");
-        sleep(4000);
     }
 
     public void clickPlayListButton() throws InterruptedException {
@@ -389,15 +434,13 @@ public class PDP_Helper {
         if(!BaseClass.driver.findElements(playListPillocator).isEmpty()){
             BaseClass.driver.findElement(playListPillocator).click();
             test.info("click PlayList button ");
+            sleep(2000);//For stabilization to screenshot
         }
-        sleep(3000);
     }
 
     public void clickEditButton() throws InterruptedException {
         By editButton = LocatorProvider.getElementLocator("editButton");
-        sleep(3000);//DO NOT REDUCE
         BaseClass.driver.findElement(editButton).click();//Edit button
-        sleep(2000);//DO NOT REDUCE
         test.info("Click Edit button");
     }
 
@@ -466,8 +509,6 @@ public class PDP_Helper {
 
 
     public boolean clickTestPlayListFromPlayListsPage(List<WebElement> elements, String  testPlayList) {
-    //    boolean isFound = false;
-     //   String playlistTitle = "";
         System.out.println(System.getProperty("platformName"));
         String platform = System.getProperty("platformName").trim().toLowerCase();
 
@@ -497,35 +538,9 @@ public class PDP_Helper {
 
     public static String CapturePresentScreenShot(ExtentTest test, String testCaseName) throws MalformedURLException {
         String screenshotPath = ScreenshotUtils.CaptureScreenshot(BaseClass.driver,testCaseName);
-        System.out.println(screenshotPath);
+       // System.out.println(screenshotPath);
         test.info(testCaseName,
                 MediaEntityBuilder.createScreenCaptureFromPath(screenshotPath).build());
         return screenshotPath;
     }
-
 }
-
-// openPlaylist(elements, platform, testPlayList);
-
-//        for (WebElement targetCell : elements) {
-//            //Android
-//            if(platform.contains("android")){
-//                playlistTitle = targetCell.getText();
-//                if (playlistTitle.contains(testPlayList)) {
-//                    isFound = true;
-//                    targetCell.click();
-//                    test.info("click testPlayList ");
-//                    break;
-//                }
-//            }else{
-//                //iOS
-//                WebElement nestedElement = targetCell.findElement(By.xpath("./XCUIElementTypeOther/XCUIElementTypeOther"));
-//                playlistTitle = nestedElement.getText();
-//                if (playlistTitle.contains(testPlayList)) {
-//                    isFound = true;
-//                    nestedElement.click();
-//                    test.info("click testPlayList ");
-//                    break;
-//                }
-//            }
-//        }

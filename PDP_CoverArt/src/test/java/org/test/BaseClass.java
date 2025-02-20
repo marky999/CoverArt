@@ -9,6 +9,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import java.net.MalformedURLException;
+import java.util.Objects;
+
 import static java.lang.Thread.sleep;
 
 public class BaseClass {
@@ -20,32 +22,35 @@ public class BaseClass {
     public final boolean skipSetup = false;  // Flag to control if BeforeMethod should run
     public static ITestResult testResult;
     public static ExtentTest test;
-    public static final boolean executeDescriptionCases = true;/////////////   DEBUG PURPOSE //////////
-    public static final boolean executeUpload = false;// = true;
-    public static final boolean executeAll = false;
-    public static  String testPlayList = "Test playlist";
-    public static boolean isSimulator = false;
-    public static boolean isEmulator = true;
+    public static  String testPlayList = ConfigReader.getProperty("testPlayList");
+    public static boolean isSimulator = Boolean.parseBoolean(ConfigReader.getProperty("isSimulator"));
+    public static boolean isEmulator = Boolean.parseBoolean(ConfigReader.getProperty("isEmulator"));
+    public static boolean Android = Boolean.parseBoolean(ConfigReader.getProperty("Android"));
     public String tempTestString = "";
-    public static boolean Android = false;
 
     @BeforeSuite
     public void setOS(){
-        if (System.getProperty("platformName") == null)
+        String locale = ConfigReader.getProperty("locale");
+        String platformName = ConfigReader.getProperty("platformName");
+        if (platformName.equals("iOS"))
         {
             System.out.println("Setting property to iOS");
             System.setProperty("platformName", "iOS");
+           // System.setProperty("locale","en");
         }else{
              testPlayList = "Empty description";
             System.out.println("Setting property to Android");
-           // System.setProperty("platformName", "Android");
             Android = true;
+        }
+        if(locale.equals("ja")){
+            System.setProperty("locale","ja");
         }
     }
 
-    @BeforeClass
-    public void setup() throws MalformedURLException {
+    @BeforeSuite
+    public void setup() throws MalformedURLException, InterruptedException {
         driver = DriverManager.getDriver();
+        sleep(2000);
         System.out.println("System property platformName: " + System.getProperty("platformName"));
 
         String screenshotsPath = "./screenshots"; // Adjust path if needed

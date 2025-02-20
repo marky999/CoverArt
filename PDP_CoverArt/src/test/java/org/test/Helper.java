@@ -54,15 +54,15 @@ public class Helper {
         PointerInput finger2 = new PointerInput(PointerInput.Kind.TOUCH, "finger2");
 
         Sequence finger1Action = new Sequence(finger1, 0)
-                .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerX, centerY - 100))
+                .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerX, centerY - 50))
                 .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                .addAction(finger1.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), centerX, centerY - 300))
+                .addAction(finger1.createPointerMove(Duration.ofMillis(1000), PointerInput.Origin.viewport(), centerX, centerY - 350))
                 .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         Sequence finger2Action = new Sequence(finger2, 0)
-                .addAction(finger2.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerX, centerY + 100))
+                .addAction(finger2.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerX, centerY + 50))
                 .addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                .addAction(finger2.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), centerX, centerY + 300))
+                .addAction(finger2.createPointerMove(Duration.ofMillis(1000), PointerInput.Origin.viewport(), centerX, centerY + 350))
                 .addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         driver.perform(Arrays.asList(finger1Action, finger2Action));
@@ -72,7 +72,7 @@ public class Helper {
         params.put("fromX", 200); // Starting X coordinate (center horizontally)
         params.put("fromY", 500); // Starting Y coordinate
         params.put("toX", 200);   // Ending X coordinate (same as start)
-        params.put("toY", 470);   // Slightly above the starting Y
+        params.put("toY", 488);   // Slightly above the starting Y
         params.put("duration", 0.1); // Swipe duration in seconds
         driver.executeScript("mobile: dragFromToForDuration", params);
         test.info("Scroll up");
@@ -126,8 +126,16 @@ public class Helper {
     public boolean isImageSame( File img1, File img2) throws IOException {
         BufferedImage image1 = ImageIO.read(img1);
         BufferedImage image2 = ImageIO.read(img2);
+        return isImageSame(image1, image2);
+     //   ImageDiffer imgDiff = new ImageDiffer();  // Use a library like AShot
+     //   ImageDiff diff = imgDiff.makeDiff(image1, image2);
+
+     //   return !diff.hasDiff();
+    }
+
+    public boolean isImageSame( BufferedImage img1, BufferedImage img2) throws IOException {
         ImageDiffer imgDiff = new ImageDiffer();  // Use a library like AShot
-        ImageDiff diff = imgDiff.makeDiff(image1, image2);
+        ImageDiff diff = imgDiff.makeDiff(img1, img2);
 
         return !diff.hasDiff();
     }

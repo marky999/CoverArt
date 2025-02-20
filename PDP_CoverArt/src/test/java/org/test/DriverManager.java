@@ -4,6 +4,7 @@ import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.Objects;
 import static org.test.BaseClass.isEmulator;
 import static org.test.BaseClass.isSimulator;
@@ -31,9 +32,9 @@ public class DriverManager {
             } else {
                 System.out.println("Test against iPhone Physical");
                 options
-                        .setPlatformVersion("18.0.1")
-                        .setDeviceName("iPhone_13 Pro")
-                        .setUdid("00008110-001C45D60CC0401E")
+                        .setPlatformVersion("18.3")
+                        .setDeviceName("iPhone_16 Pro")
+                        .setUdid("00008140-001415481422801C") //00008110-001C45D60CC0401E
                         .setApp("com.amazon.mp3.CloudPlayer") // or the app path
                         .setAutomationName("XCUITest")
                         .setShowXcodeLog(true);
@@ -55,6 +56,7 @@ public class DriverManager {
             }
         }
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // Set implicit wait
         return driver;
     }
 
